@@ -1,0 +1,9 @@
+1. select avg(o_ol_cnt) from bmsql_oorder where (o_w_id, o_d_id, o_c_id) in (select c_w_id, c_d_id, c_id from bmsql_customer where c_credit = 'GC' and c_discount > 0.3);
+
+2. select distinct A.w_id from bmsql_warehouse as A, bmsql_warehouse as B, bmsql_stock as S where S.s_i_id in (select i_id from bmsql_item where i_name ~ '^sp') and S.s_w_id = B.w_id and A.w_tax > B.w_tax order by A.w_id;
+
+3. select i_name from bmsql_item where i_id in (select s_i_id from bmsql_stock group by s_i_id having count(s_w_id) in (select count(w_id) from bmsql_warehouse )) and i_name ~ '^sp';
+
+4. select o_w_id, count(*) from bmsql_oorder where o_ol_cnt > 10 group by o_w_id;
+
+5. select distinct i_name from bmsql_warehouse, bmsql_stock, bmsql_item where i_id = s_i_id and s_w_id = w_id group by i_name having max(w_tax) > 0.13 and min(w_tax) < 0.02;
